@@ -26,7 +26,7 @@ const productSchema = Schema({
     ref: 'Category'
   },
 
-  tag: {
+  tags: {
     type: Schema.Types.ObjectId,
     ref: 'Tag'
   }
