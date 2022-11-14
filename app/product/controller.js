@@ -81,6 +81,7 @@ const index = async (req, res, next) => {
       .find()
       .skip(parseInt(skip))
       .limit(parseInt(limit))
+      .populate('category')
     return res.json(product)
   } catch (err) {
     next(err)
