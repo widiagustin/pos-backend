@@ -2,10 +2,25 @@ const path = require('path')
 const fs = require('fs')
 const config = require('../config')
 const Product = require('./model')
+const Category = require('../category/model')
 
 const store = async (req, res, next) => {
   try {
     let payload = req.body
+
+    // check if product have relation to category
+    if (payload.category) {
+      {
+        let category = await Category
+          .findOne({ name: { $regex: payload.category, $options: 'i' } })
+        if (category) {
+          payload = { ...payload, category: category._id }
+        } else {
+          delete payload.category
+        }
+      }
+    }
+
     if (req.file) {
       let tmp_path = req.file.path
       let originalExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
@@ -76,6 +91,19 @@ const update = async (req, res, next) => {
   try {
     let payload = req.body
     let { id } = req.params
+
+    // check if product have relation to category
+    if (payload.category) {
+      {
+        let category = await Category
+          .findOne({ name: { $regex: payload.category, $options: 'i' } })
+        if (category) {
+          payload = { ...payload, category: category._id }
+        } else {
+          delete payload.category
+        }
+      }
+    }
 
     if (req.file) {
       let tmp_path = req.file.path
