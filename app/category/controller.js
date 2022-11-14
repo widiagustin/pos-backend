@@ -39,6 +39,22 @@ const update = async (req, res, next) => {
   }
 }
 
+const destroy = async (req, res, next) => {
+  try {
+    let category = await Category.findByIdAndDelete(req.params.id)
+    return res.json(category)
+  } catch (err) {
+    if (err && err.name === 'ValidationError') {
+      return res.json({
+        error: 1,
+        message: err.message,
+        fields: err.errors
+      })
+    }
+    next(err)
+  }
+}
+
 const index = async (req, res, next) => {
   try {
     let category = await Category.find()
@@ -58,5 +74,6 @@ const index = async (req, res, next) => {
 module.exports = {
   store,
   index,
-  update
+  update,
+  destroy
 }
