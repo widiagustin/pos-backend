@@ -39,7 +39,7 @@ let userSchema = Schema({
 }, { timestamps: true })
 
 userSchema.path('email').validate(function (value) {
-  const EMAIL_RE = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+  const EMAIL_RE = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
   return EMAIL_RE.test(value)
 }, attr => `${attr.value} harus merupakan email yang valid!`)
 
