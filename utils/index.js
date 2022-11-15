@@ -1,8 +1,7 @@
 function getToken (req) {
-  let token =
-    req.headers.authorization
-      ? req.headers.authorization.replace('Bearer', '')
-      : null
+  let token = req.headers.authorization
+    ? req.headers.authorization.split(" ")[1]
+    : null;
 
   return token && token.length ? token : null
 }
