@@ -9,6 +9,7 @@ const productRoute = require('./app/product/routes')
 const categoryRoute = require('./app/category/routes')
 const tagRoute = require('./app/tag/routes')
 const authRoute = require('./app/auth/routes')
+const deliveryAddressRoute = require('./app/deliveryAddress/routes')
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/auth', authRoute)
 app.use('/api', productRoute)
 app.use('/api', categoryRoute)
 app.use('/api', tagRoute)
+app.use('/api', deliveryAddressRoute)
 // home
 app.use('/', (req, res) => {
   res.render('index', {
