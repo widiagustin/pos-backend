@@ -36,7 +36,7 @@ const store = async (req, res, next) => {
       let tmp_path = req.file.path
       let originalExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
       let filename = req.file.filename + '.' + originalExt
-      let target_path = path.resolve(config.rootPath, `public/images/products/${filename}`)
+      let target_path = path.resolve(config.rootPath, `public/images/${filename}`)
 
       const src = fs.createReadStream(tmp_path)
       const dest = fs.createWriteStream(target_path)
@@ -44,7 +44,7 @@ const store = async (req, res, next) => {
 
       src.on('end', async () => {
         try {
-          let product = new Product({ ...payload, image_url: filename })
+          let product = new Product({ ...payload, image_url: `https://food-backend-production.up.railway.app/images/${filename}` })
           await product.save()
           return res.json(product)
 
@@ -160,7 +160,7 @@ const update = async (req, res, next) => {
       let tmp_path = req.file.path
       let originalExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1]
       let filename = req.file.filename + '.' + originalExt
-      let target_path = path.resolve(config.rootPath, `public/images/products/${filename}`)
+      let target_path = path.resolve(config.rootPath, `public/images/${filename}`)
 
       const src = fs.createReadStream(tmp_path)
       const dest = fs.createWriteStream(target_path)
@@ -170,9 +170,8 @@ const update = async (req, res, next) => {
         try {
 
           let product = await Product.findById(id)
-          let currentImage = `${config.rootPath}/public/images/products/${product.image_url}`
+          let currentImage = `${config.rootPath}/public/images/${product.image_url}`
 
-          console.log(currentImage);
           if (fs.existsSync(currentImage)) {
             fs.unlinkSync(currentImage)
           }
@@ -224,7 +223,7 @@ const update = async (req, res, next) => {
 const destroy = async (req, res, next) => {
   try {
     let product = await Product.findByIdAndDelete(req.params.id)
-    let currentImage = `${config.rootPath}/public/images/products/${product.image_url}`
+    let currentImage = `${config.rootPath}/public/images/${product.image_url}`
     if (fs.existsSync(currentImage)) {
       fs.unlinkSync(currentImage)
     }
