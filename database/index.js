@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const { dbHost, dbPass, dbName, dbPort, dbUser } = require('../app/config')
+const { dbHost, dbKey } = require('../app/config')
 
-
-mongoose.connect(`mongodb://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}?authSource=admin`)
+mongoose.connect(`mongodb://${dbHost}:${dbKey}@containers-us-west-124.railway.app:6714`)
 const db = mongoose.connection
 
 module.exports = db
